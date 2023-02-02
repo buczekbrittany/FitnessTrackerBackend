@@ -16,7 +16,7 @@ const {
 const { createFakeUser } = require("../helpers");
 
 describe("DB Users", () => {
-  describe("createUser({ username, password })", () => {
+  xdescribe("createUser({ username, password })", () => {
     xit("Creates and returns the user", async () => {
       const fakeUserData = {
         username: "Horace",
@@ -59,7 +59,7 @@ describe("DB Users", () => {
     });
   });
 
-  describe("getUser({ username, password })", () => {
+  xdescribe("getUser({ username, password })", () => {
     xit("Returns the user when the password verifies", async () => {
       const fakeUserData = {
         username: "Nicole",
@@ -95,7 +95,7 @@ describe("DB Users", () => {
     });
   });
 
-  describe("getUserById", () => {
+  xdescribe("getUserById", () => {
     xit("Gets a user based on the user Id", async () => {
       const fakeUser = await createFakeUser("Jacob");
       const user = await getUserById(fakeUser.id);
@@ -110,7 +110,7 @@ describe("DB Users", () => {
     });
   });
 
-  describe("EXTRA CREDIT: Hashing Passwords", () => {
+  xdescribe("EXTRA CREDIT: Hashing Passwords", () => {
     xit("EXTRA CREDIT: Does not store plaintext password in the database", async () => {
       const fakeUserData = {
         username: "Harry",

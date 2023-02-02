@@ -1,34 +1,54 @@
 const client = require("./client");
+const bcrypt = require('bcrypt');
+const saltCount = 10;
 
 // database functions
 
 // user functions
 async function createUser({ username, password }) {
-  const{rows} = await client.query(`
-  INSERT INTO USERS(username,password)
+  const hashedPassword = await bcrypt.hash(password, saltCount)
+  try {
+  const { rows: [user] } = await client.query(`
+  INSERT INTO users (username,password)
   VALUES ($1,$2)
   ON CONFLICT (username) DO NOTHING
-  RETURNING id,username;
+  RETURNING id, username;
 
-  `,[username,password]);
-  return rows[0]
-  //const bcrypt = require('bcrypt')
-  //const saltCount = 10;
-  //const hashedPassword = await bcrypt.hash(password, saltCount)
+  `, [username, hashedPassword]);
+  return user;
   
+} catch (error) {
+  throw error;
+}
 }
 
 async function getUser({ username, password }) {
-  //const user = await getUserByUserName(username);
-  //const hashedPassword = user.password;
+// this should be able to verify the password against the hashed password
+  if (!username || !password) {
+    return;
+  }
+  try {
+    // need to add stuff here
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function getUserById(userId) {
-
+ 
 }
 
 async function getUserByUsername(userName) {
-
+  try {
+    const { rows: [user] } = await client.query(`
+    SELECT * 
+    FROM users
+    WHERE username=${userName};
+    `
+    );
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {
