@@ -16,8 +16,8 @@ const {
 const { createFakeUser } = require("../helpers");
 
 describe("DB Users", () => {
-  xdescribe("createUser({ username, password })", () => {
-    xit("Creates and returns the user", async () => {
+  describe("createUser({ username, password })", () => {
+    it("Creates and returns the user", async () => {
       const fakeUserData = {
         username: "Horace",
         password: faker.internet.password(),
@@ -26,7 +26,7 @@ describe("DB Users", () => {
       expect(user.username).toBe(fakeUserData.username);
     });
 
-    xit("Does NOT return the password", async () => {
+    it("Does NOT return the password", async () => {
       const fakeUserData = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
@@ -37,7 +37,7 @@ describe("DB Users", () => {
   });
 
   describe("getUserByUsername", () => {
-    xit("Gets a user based on the username", async () => {
+    it("Gets a user based on the username", async () => {
       const fakeUserData = {
         username: "Sean",
         password: faker.internet.password(),

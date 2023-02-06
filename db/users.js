@@ -38,14 +38,15 @@ async function getUserById(userId) {
  
 }
 
-async function getUserByUsername(userName) {
+async function getUserByUsername(username) {
   try {
-    const { rows: [user] } = await client.query(`
+    const { rows: [username] } = await client.query(`
     SELECT * 
     FROM users
-    WHERE username=${userName};
-    `
-    );
+    WHERE username= $1;
+    `,[username]);
+    
+    return user;
   } catch (error) {
     throw error;
   }
