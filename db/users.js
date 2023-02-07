@@ -1,5 +1,6 @@
 const client = require("./client");
 const bcrypt = require('bcrypt');
+const { id_ID } = require("faker/lib/locales");
 const saltCount = 10;
 
 // database functions
@@ -24,23 +25,40 @@ async function createUser({ username, password }) {
 
 async function getUser({ username, password }) {
 // this should be able to verify the password against the hashed password
-  if (!username || !password) {
-    return;
+
+// if (!username || !password) {
+//     return;
+//   }
+const user = await getUserByUsername(username)
+const hashedPassword = user.password;
+const isValid = await bcrypt.compare(password, hashedPassword)
+
+
+
+try {
+  if (isValid) {
+    delete user.password
+    return user;
   }
-  try {
-    // need to add stuff here
-  } catch (error) {
-    throw error;
-  }
+  // const { rows: [user] } = await client.query(`
+  // SELECT id, username
+  // FROM users
+  // WHERE password = $1;
+  // `, [password]);
+
+  // return user
+} catch (error) {
+  throw error
+}
 }
 
 async function getUserById(userId) {
- 
+
 }
 
-async function getUserByUsername(username) {
+async function getUserByUsername(userName) {
   try {
-    const { rows: [username] } = await client.query(`
+    const { rows: [user] } = await client.query(`
     SELECT * 
     FROM users
     WHERE username= $1;
