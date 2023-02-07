@@ -19,6 +19,17 @@ try {
 
 async function getAllActivities() {
   // select and return an array of all activities
+  // note: { rows: [activity] } only returns one activity
+  // but { rows: activity } returns all activities
+  try {
+    const { rows: activity } = await client.query(`
+    SELECT *
+    FROM activities
+    `);
+    return activity;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function getActivityById(id) {}
