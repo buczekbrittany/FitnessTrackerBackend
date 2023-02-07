@@ -38,9 +38,9 @@ async function getUserById(userId) {
  
 }
 
-async function getUserByUsername(userName) {
+async function getUserByUsername(username) {
   try {
-    const { rows: [user] } = await client.query(`
+    const { rows: [username] } = await client.query(`
     SELECT * 
     FROM users
     WHERE username= $1;
