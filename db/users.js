@@ -33,6 +33,7 @@ const isValid = await bcrypt.compare(password, hashedPassword)
 // NOTES on what's happening here with the code
 // using getUserByUsername to select user
 // holding onto users password with const hashedPassword
+// to check a password documentation https://www.npmjs.com/package/bcrypt
 // bcrypt.compare compares password coming through with hashedPassword
 //  if(isValid) is boolean, will be either true or false
 // if its true, delete password & return user. if not, doesnt run
