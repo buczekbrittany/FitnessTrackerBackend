@@ -15,11 +15,9 @@ async function dropTables() {
     console.log("Dropping All Tables...");
 
     await client.query(`
-     DROP TABLE IF EXISTS routineActivities;
       DROP TABLE IF EXISTS routine_activities;
-      DROP TABLE IF EXISTS activities;
-      
       DROP TABLE IF EXISTS routines;
+      DROP TABLE IF EXISTS activities;
       DROP TABLE IF EXISTS users;
     `);
     // drop all tables, in the correct order

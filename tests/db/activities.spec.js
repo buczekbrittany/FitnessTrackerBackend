@@ -39,7 +39,7 @@ describe("DB Activities", () => {
   });
 
   describe("getActivityById", () => {
-    xit("Gets activities by their id", async () => {
+    it("Gets activities by their id", async () => {
       const fakeActivity = await createFakeActivity("Crunches", "Do 40 reps");
       const activity = await getActivityById(fakeActivity.id);
       expect(activity.id).toEqual(fakeActivity.id);

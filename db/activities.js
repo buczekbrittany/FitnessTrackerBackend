@@ -9,7 +9,7 @@ try {
   INSERT INTO activities ( name, description )
   VALUES ($1,$2)
   ON CONFLICT (name) DO NOTHING
-  RETURNING name, description;
+  RETURNING id, name, description;
   `, [ name, description ]);
   return activity;
 } catch (error) {
@@ -32,7 +32,18 @@ async function getAllActivities() {
   }
 }
 
-async function getActivityById(id) {}
+async function getActivityById(id) {
+  try {
+    const { rows: [ activity ] } = await client.query(`
+      SELECT *
+      FROM activities
+      WHERE id=$1;
+    `, [id]);
+  return activity;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function getActivityByName(name) {}
 
