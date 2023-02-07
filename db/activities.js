@@ -45,7 +45,18 @@ async function getActivityById(id) {
   }
 }
 
-async function getActivityByName(name) {}
+async function getActivityByName(name) {
+  try {
+    const { rows: [ activity ] } = await client.query(`
+    SELECT *
+    FROM activities
+    WHERE name=$1;
+    `, [name]);
+  return activity;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function attachActivitiesToRoutines(routines) {
   // select and return an array of all activities
