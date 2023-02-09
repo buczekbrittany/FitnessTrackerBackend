@@ -13,6 +13,7 @@ try {
   `, [ name, description ]);
   return activity;
 } catch (error) {
+  console.log(error)
   throw error;
 }
 }

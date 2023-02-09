@@ -26,6 +26,7 @@ async function getRoutineById(id) {
     `,[id]);
     return routine;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
@@ -39,6 +40,7 @@ try {
   `);
   return routine;
 } catch (error) {
+  console.log(error)
   throw error;
 }
 }
@@ -74,6 +76,7 @@ async function getAllPublicRoutines() {
 
     return routines;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
@@ -87,6 +90,7 @@ async function getAllRoutinesByUser({ username }) {
     })
     return routines;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
@@ -100,13 +104,34 @@ async function getPublicRoutinesByUser({ username }) {
     })
     return routines;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
 
-async function getPublicRoutinesByActivity({ id }) {}
+async function getPublicRoutinesByActivity({ id }) {
+  try {
+    let routines = await getAllPublicRoutines();
+ 
+    routines = routines.filter(routine => {
+      let foundActivity = false
+      for(let i = 0; i < routine.activities.length;i++){
+  if(routine.activities[i].id === id){
+     foundActivity = true
+  }
+      }
+      return foundActivity
+    })
+    return routines
+  } catch (error) {
+    console.log(error)
+    throw (error)
+  }
+}
 
-async function updateRoutine({ id, ...fields }) {}
+async function updateRoutine({ id, ...fields }) {
+  
+}
 
 async function destroyRoutine(id) {}
 
