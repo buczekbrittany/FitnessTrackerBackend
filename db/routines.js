@@ -1,5 +1,6 @@
 const client = require("./client");
 const { attachActivitiesToRoutines } = require("./activities");
+const util = require("./util");
 
 async function createRoutine({ creatorId, isPublic, name, goal }) {
   try {
@@ -130,10 +131,42 @@ async function getPublicRoutinesByActivity({ id }) {
 }
 
 async function updateRoutine({ id, ...fields }) {
-  
+  try {
+    const toUpdate ={}
+    for (let column in fields){
+      if (fields[column] !== undefined ) toUpdate[column] = fields[column]
+    }
+      let routine;
+      if(util.dbFields(toUpdate).insert.length > 0){
+        const{ rows } = await client.query(`
+        UPDATE routines
+        SET ${util.dbFields(toUpdate).insert}
+        WHERE id=${id}
+        RETURNING *;
+        `, Object.values(toUpdate));
+        routine = rows[0]
+      }
+      return routine;
+    
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
-async function destroyRoutine(id) {}
+async function destroyRoutine(id) {
+  try {
+    const {rows:}
+    await client.query(`
+      DELETE FROM routine_activities
+      WHERE id=$1
+      `, [id])
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+
+}
 
 module.exports = {
   getRoutineById,
