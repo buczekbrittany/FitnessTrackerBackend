@@ -63,9 +63,24 @@ try {
  };
 
 
-async function getAllPublicRoutines() {}
+async function getAllPublicRoutines() {
+  try {
+    let routines = await getAllRoutines();
 
-async function getAllRoutinesByUser({ username }) {}
+    routines = routines.filter(routine => {
+      // returning any routine that has .isPublic
+      return routine.isPublic
+    });
+
+    return routines;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllRoutinesByUser({ username }) {
+
+}
 
 async function getPublicRoutinesByUser({ username }) {}
 
