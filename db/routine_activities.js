@@ -1,4 +1,5 @@
 const client = require("./client");
+const { getRoutineById } = require("./routines");
 
 async function addActivityToRoutine({
   routineId,
@@ -34,7 +35,18 @@ async function getRoutineActivityById(id) {
   }
 }
 
-async function getRoutineActivitiesByRoutine({ id }) {}
+async function getRoutineActivitiesByRoutine({ id }) {
+  try {
+    const { rows: routineActivities } = await client.query(
+    `SELECT *
+    FROM routine_activities
+    WHERE "routineId"=$1
+    `, [id]);
+  return routineActivities
+  } catch (error) {
+    throw error
+  }
+}
 
 async function updateRoutineActivity({ id, ...fields }) {}
 
