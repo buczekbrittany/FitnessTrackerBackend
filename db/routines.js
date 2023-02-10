@@ -4,7 +4,7 @@ const util = require("./util");
 
 async function createRoutine({ creatorId, isPublic, name, goal }) {
   try {
-    const { rows: [routine] } = await client.query(`
+    const { rows: [ routine ] } = await client.query(`
     INSERT INTO routines ( "creatorId", "isPublic", name, goal)
     VALUES ($1,$2,$3,$4)
     ON CONFLICT (name) DO NOTHING
@@ -156,16 +156,19 @@ async function updateRoutine({ id, ...fields }) {
 
 async function destroyRoutine(id) {
   try {
-    const { rows } = 
-    await client.query(`
+    const { rows } =  await client.query(`
       DELETE FROM routine_activities
       WHERE "routineId"=$1;
+      ;`, [id])
       
+      // renaming rows to destroyedRoutine, pulling one
+      const { rows: destroyedRoutine } = await client.query(`
       DELETE FROM routines 
-      WHERE id=$1`
-      , [id])
-      return rows.routines[0]
-      
+      WHERE id=$1
+      ;`, [id])
+
+      return destroyedRoutine;
+    
   } catch (error) {
     console.log(error)
     throw error
