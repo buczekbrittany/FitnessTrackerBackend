@@ -1,5 +1,6 @@
 const client = require("./client");
 const { getRoutineById } = require("./routines");
+const util = require("./util");
 
 async function addActivityToRoutine({
   routineId,
@@ -48,7 +49,29 @@ async function getRoutineActivitiesByRoutine({ id }) {
   }
 }
 
-async function updateRoutineActivity({ id, ...fields }) {}
+async function updateRoutineActivity({ id, ...fields }) {
+  try {
+    const toUpdate ={}
+    for (let column in fields){
+      if (fields[column] !== undefined ) toUpdate[column] = fields[column]
+    }
+      let routineActivity;
+      if(util.dbFields(toUpdate).insert.length > 0){
+        const{ rows } = await client.query(`
+        UPDATE routine_activities
+        SET ${util.dbFields(toUpdate).insert}
+        WHERE id=${id}
+        RETURNING *;
+        `, Object.values(toUpdate));
+        routineActivity = rows[0]
+      }
+      return routineActivity;
+    
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
 
 async function destroyRoutineActivity(id) {}
 
