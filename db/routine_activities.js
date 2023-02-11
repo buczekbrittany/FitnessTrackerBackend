@@ -82,12 +82,28 @@ async function destroyRoutineActivity(id) {
       ;`, [id])
     return destroyedRoutineActivity;
   } catch (error) {
-    console.log(error)
-    throw error
+    console.log(error);
+    throw error;
   }
 }
 
-async function canEditRoutineActivity(routineActivityId, userId) {}
+async function canEditRoutineActivity(routineActivityId, userId) {
+  const editedRoutine = await getRoutineActivityById(routineActivityId)
+  const userRoutineId = await getRoutineById(userId)
+
+  try {
+    if (!userRoutineId) {
+      return false
+    } if (editedRoutine.routineId === userRoutineId.creatorId) {
+      return true
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } 
+}
 
 module.exports = {
   getRoutineActivityById,
