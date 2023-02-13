@@ -88,13 +88,21 @@ async function destroyRoutineActivity(id) {
 }
 
 async function canEditRoutineActivity(routineActivityId, userId) {
-  const editedRoutine = await getRoutineActivityById(routineActivityId)
+  const editedRoutineActivity = await getRoutineActivityById(routineActivityId)
   const userRoutineId = await getRoutineById(userId)
+
+  // notes:
+  //  editedRoutineActivity grabs routine activity through its id
+  // userRoutineId grabs routine through its user id
+  //  if (!userRoutineId) checks if user exists -- if it doesnt, returns false
+  // if it does, then check the routine activity's routine id (editedRoutineActivity.routineId)
+  // compare to userRoutineId.creatorId, the routine's user id
+  // if its a match return true, if its not return false
 
   try {
     if (!userRoutineId) {
       return false
-    } if (editedRoutine.routineId === userRoutineId.creatorId) {
+    } if (editedRoutineActivity.routineId === userRoutineId.creatorId) {
       return true
     } else {
       return false
