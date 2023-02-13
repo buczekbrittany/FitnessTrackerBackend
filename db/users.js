@@ -26,9 +26,9 @@ async function createUser({ username, password }) {
 async function getUser({ username, password }) {
 // this should be able to verify the password against the hashed password
 
-const user = await getUserByUsername(username)
-const hashedPassword = user.password;
-const isValid = await bcrypt.compare(password, hashedPassword)
+// const user = await getUserByUsername(username)
+// const hashedPassword = user.password;
+// const isValid = await bcrypt.compare(password, hashedPassword)
 
 // NOTES on what's happening here with the code
 // using getUserByUsername to select user
@@ -39,10 +39,17 @@ const isValid = await bcrypt.compare(password, hashedPassword)
 // if its true, delete password & return user. if not, doesnt run
 
 try {
-  if (isValid) {
-    delete user.password
-    return user;
-  }
+  // if (isValid) {
+  //   delete user.password
+  //   return user;
+  // }
+  const { rows: [ user ] } = await client.query(`
+  SELECT id, username
+  FROM users
+  WHERE password=$1;
+  `, [ password ])
+  delete user.password
+  return user
 
 } catch (error) {
   throw error
